@@ -1,0 +1,18 @@
+class Solution {
+    static int c=1;
+    public int maxDepth(TreeNode root) {
+        if(root==null)return 0;
+        tree(root,1);
+        int t=c;
+        c=1;
+        return t;
+    }
+    static void tree(TreeNode root,int cd){
+        if(root!=null){
+            if(cd>c)c=cd;
+            tree(root.left,cd+1);
+            tree(root.right,cd+1);
+        }
+        else return;
+    }
+}
