@@ -1,0 +1,18 @@
+class Solution {
+    static int ind,v;
+    public int findBottomLeftValue(TreeNode root) {
+        ind=0;
+        v=root.val;
+        fun(root,0);
+        return v;
+    }
+    static void fun(TreeNode root,int c){
+        if(root==null)return;
+        if(ind==c){
+            v=root.val;
+            ind++;
+        }
+        fun(root.left,c+1);
+        fun(root.right,c+1);
+    }
+}
