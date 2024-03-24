@@ -1,0 +1,24 @@
+
+vector<int> v;
+void fun(BinaryTreeNode<int>* root,int c){
+    if(root==NULL){
+        return;
+    }
+    if(v.size()==c){
+        v.push_back(root->data);
+    }
+    else{
+        v[c]=root->data;
+    }
+    fun(root->right,c+1);
+    fun(root->left,c+1);
+}
+vector<int> printLeftView(BinaryTreeNode<int>* root) {
+    // Write your code here.
+    
+    v.clear();
+    if(root==NULL)return v;
+    fun(root,0);
+    // v.insert(v.begin(),root->data);
+    return v;
+}
