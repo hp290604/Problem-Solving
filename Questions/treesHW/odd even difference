@@ -1,0 +1,21 @@
+class Solution
+{
+    static int e=0,o=0;
+    static void fun(Node root,int c){
+        if(root==null){
+            return;
+        }
+        if(c%2==0)o+=root.data;
+        else e+=root.data;
+        fun(root.left,c+1);
+        fun(root.right,c+1);
+    }
+	int getLevelDiff(Node root)
+	{
+	    //code here
+	    e=0; 
+	    o=0;
+	    fun(root,0);
+	    return o-e;
+	}
+}
