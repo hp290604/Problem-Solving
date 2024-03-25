@@ -1,0 +1,63 @@
+class Sol{
+    Node ptr;
+    int c;
+    Sol(Node p,int c){
+        ptr=p;
+        this.c=c;
+    }
+}
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static ArrayList<Integer> list;
+    static int min;
+    static int max;
+    static void fun(Node root,int c){
+        if(root==null)return;
+        min=Math.min(min,c);
+        max=Math.max(max,c);
+        fun(root.left,c-1);
+        fun(root.right,c+1);
+    }
+    static ArrayList<Integer> topView(Node root)
+    {
+        // add your code
+        min=Integer.MAX_VALUE;
+        max=Integer.MIN_VALUE;
+        fun(root,0);
+        list=new ArrayList<>();
+        for(int i=0;i<=max-min;i++)list.add(-1);
+        // top(root,0,list);
+        Queue<Sol> q=new LinkedList<>();
+        Sol solution=new Sol(root,0);
+        // q.add(solution);
+        // System.out.println(solution.ptr);
+        q.offer(solution);
+        // q.offer(new Sol(root,0));
+        // System.out.println(q.peek());
+        while(!q.isEmpty()){
+            
+            solution=q.poll();
+            // System.out.println(" "+solution.ptr);
+            if(solution.ptr.left!=null){
+                Sol sol=new Sol(solution.ptr.left,solution.c-1);
+                q.offer(sol);
+                
+            }
+            if(solution.ptr.right!=null){
+                Sol sol=new Sol(solution.ptr.right,solution.c+1);
+                q.offer(sol);
+                
+            }
+            if(list.get(solution.c-min)==-1)list.set(solution.c-min,solution.ptr.data);
+        }
+        for(int i=0;i<list.size();){
+            if(list.get(i)==-1){
+                list.remove(i);
+            }
+            else i++;
+        }
+        return list;
+    }
+}
