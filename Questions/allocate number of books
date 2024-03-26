@@ -1,0 +1,48 @@
+class Solution 
+{
+    //Function to find minimum number of pages.
+    public static int findPages(int[]A,int N,int M)
+    {
+        if(M>N)return -1;
+        int ans=Integer.MAX_VALUE;
+        //Your code here
+        int sum=0;
+        int max=Integer.MIN_VALUE;
+        for(int i=0;i<A.length;i++){
+            sum+=A[i];
+            max=Math.max(A[i],max);
+        }
+        // System.out.println(sum+" "+max);
+        int l=max,h=sum;
+        while(l<=h){
+            
+            int mid=l+(h-l)/2;
+            
+            if(possible(A,mid,M)){
+                // System.out.println(l+" "+h);
+                ans=Math.min(mid,ans);
+                h=mid-1;
+                
+            }
+            else l=mid+1;
+        }
+        return ans;
+        
+    }
+    static boolean possible(int [] A,int mid,int totalStudents){
+        int curStudents=0;
+        int pages=0;
+        for(int i=0;i<A.length;i++){
+            pages+=A[i];
+            if(pages>mid){
+                pages=A[i];
+                curStudents++;
+            }
+            
+            // else pages+=A[i];
+        }
+        curStudents++;
+        // System.out.println(++curStudents);
+        return curStudents<=totalStudents;
+    }
+}
