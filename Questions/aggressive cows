@@ -1,0 +1,29 @@
+class Solution {
+    public static int solve(int n, int k, int[] stalls) {
+        Arrays.sort(stalls);
+        int l=1,h=stalls[n-1]-stalls[0]+1,ans=1;
+        while(l<=h){
+            int mid=l+(h-l)/2;
+            if(possible(mid,stalls,k)){
+                ans=mid;
+                l=mid+1;
+            }
+            else{
+                h=mid-1;
+            }
+        }
+        // System.out.println(stalls[0]+" "+stalls[n-1]);
+        return ans;
+    }
+    static boolean possible(int mid,int[] s,int k){
+        int l=s[0];
+        int t=1;
+        for(int i=1;i<s.length;i++){
+            if(s[i]-l>=mid){
+                t++;
+                l=s[i];
+            }
+        }
+        return t>=k;
+    }
+}
