@@ -1,0 +1,60 @@
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        // Node node=new Node(0,root);
+        if(root==null)return "";
+        String s="";
+        Queue<TreeNode> q=new LinkedList<>();
+        q.offer(root);
+        while(!q.isEmpty()){
+            TreeNode ptr=q.poll();
+            s+=ptr.val;
+            if(ptr.left!=null){s+="&"+ptr.left.val;q.offer(ptr.left);}
+            else s+="&N";
+            if(ptr.right!=null){s+="&"+ptr.right.val;q.offer(ptr.right);}
+            else s+="&N";
+            s+=",";
+            
+        }
+        // System.out.println(s);
+        return s;
+        
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if(data.length()==0)return null;
+        TreeNode head=null;
+        String[] s=data.split(",");
+        // System.out.println(s.length);
+        Queue<TreeNode> q=new LinkedList<>();
+        String[] fir=s[0].split("&");
+        head=new TreeNode(Integer.valueOf(fir[0]));
+        if(!fir[1].equals("N")){
+            head.left=new TreeNode(Integer.valueOf(fir[1]));
+            q.offer(head.left);
+        }
+        if(!fir[2].equals("N")){
+            head.right=new TreeNode(Integer.valueOf(fir[2]));
+            q.offer(head.right);
+        }
+        int i=1;
+        while(!q.isEmpty() && i!=s.length){
+            TreeNode ptr=q.peek();
+            fir=s[i].split("&");
+            if(!fir[1].equals("N")){
+                ptr.left=new TreeNode(Integer.valueOf(fir[1]));
+                q.offer(ptr.left);
+            }
+            if(!fir[2].equals("N")){
+                ptr.right=new TreeNode(Integer.valueOf(fir[2]));
+                q.offer(ptr.right);
+            }
+            q.poll();
+            i++;
+        }
+        
+        return head;
+    }
+}
