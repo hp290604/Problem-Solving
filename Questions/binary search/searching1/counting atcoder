@@ -1,0 +1,26 @@
+
+import java.util.*;
+
+public class Main{
+  public static void main(String[] args){
+    Scanner s=new Scanner(System.in);
+    int[] a=new int[s.nextInt()];
+    int q=s.nextInt();
+    for(int i=0;i<a.length;i++)a[i]=s.nextInt();
+    Arrays.sort(a);
+    while(q-->0){
+      int x=s.nextInt();
+      int ans=a.length;
+      int l=0,h=a.length-1;
+      while(l<=h){
+        int mid=l+(h-l)/2;
+        if(a[mid]>=x){
+          ans=mid;
+          h=mid-1;
+        }
+        else l=mid+1;
+      }
+      System.out.println(a.length-ans);
+    }
+  }
+}
