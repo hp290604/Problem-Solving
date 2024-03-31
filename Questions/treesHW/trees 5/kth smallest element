@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+ let count=0
+ let stack=[5]
+ 
+ let b=stack.pop()
+// console.log(b)
+ var v=0;
+ function kth(root,k){
+        while (root != null || !stack.length==0) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+ 
+            root = stack.pop();
+ 
+            if (--k == 0)
+                return root.val; 
+            root = root.right;
+        }
+ 
+        return -1;
+    }
+
+    
+//  console.log(5)
+var kthSmallest = function(root, k) {
+    
+    // let count=0;
+    count=0;
+    v=kth(root,k)
+
+    return v;
+};
