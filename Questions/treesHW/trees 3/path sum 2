@@ -1,0 +1,27 @@
+class Solution {
+    static List<List<Integer>> list;
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if(root==null)return new ArrayList<>();
+        list=new ArrayList<>();
+        fu(root,targetSum,new ArrayList<>(),0);
+        return list;
+    }
+    static void fu(TreeNode root,int t,List<Integer> li,int sum){
+        if(root.left==null && root.right==null){
+            li.add(root.val);
+            // sum+=root.val
+            // System.out.println(sum);
+            if(sum+root.val==t){
+                // System.out.println(li);
+                List<Integer> l=new ArrayList<>(li);
+                list.add(l);
+            }
+            li.remove(li.size()-1);
+            return;
+        }
+        li.add(root.val);
+        if(root.left!=null)fu(root.left,t,li,sum+root.val);
+        if(root.right!=null)fu(root.right,t,li,sum+root.val);
+        li.remove(li.size()-1);
+    }
+}
