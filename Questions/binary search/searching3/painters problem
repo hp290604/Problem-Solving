@@ -1,0 +1,48 @@
+import java.util.ArrayList;
+
+public class Solution 
+{
+    public static int findLargestMinDistance(ArrayList<Integer> A, int M)
+    {
+        //    Write your code here.
+        int ans=Integer.MAX_VALUE;
+        //Your code here
+        int sum=0;
+        int max=Integer.MIN_VALUE;
+        for(int i=0;i<A.size();i++){
+            sum+=A.get(i);
+            max=Math.max(A.get(i),max);
+        }
+        // System.out.println(sum+" "+max);
+        int l=max,h=sum;
+        while(l<=h){
+            
+            int mid=l+(h-l)/2;
+            
+            if(possible(A,mid,M)){
+                // System.out.println(l+" "+h);
+                ans=Math.min(mid,ans);
+                h=mid-1;
+                
+            }
+            else l=mid+1;
+        }
+        return ans;
+    }
+    static boolean possible(ArrayList<Integer> A,int mid,int totalStudents){
+        int curStudents=0;
+        int pages=0;
+        for(int i=0;i<A.size();i++){
+            pages+=A.get(i);
+            if(pages>mid){
+                pages=A.get(i);
+                curStudents++;
+            }
+            
+            // else pages+=A[i];
+        }
+        curStudents++;
+        // System.out.println(++curStudents);
+        return curStudents<=totalStudents;
+    }
+}
