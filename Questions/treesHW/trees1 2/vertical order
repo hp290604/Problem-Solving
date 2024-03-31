@@ -1,0 +1,37 @@
+class Solution {
+    static void fun(TreeNode root,int c,int[] a,int x){
+        if(root==null)return;
+        a[0]=Math.min(a[0],c);
+        a[1]=Math.max(a[1],c);
+        a[2]=Math.max(a[2],x);
+        fun(root.left,c-1,a,x+1);
+        fun(root.right,c+1,a,x+1);
+    }
+    static void f(TreeNode root,HashMap<Integer,List<List<Integer>>> list,int c,int[] a,int x){
+        if(root==null)return;
+        list.get(x).get(c-a[0]).add(root.val);
+        f(root.left,list,c-1,a,x+1);
+        f(root.right,list,c+1,a,x+1);
+    }
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        int[] a=new int[]{Integer.MAX_VALUE,Integer.MIN_VALUE,0};
+        fun(root,0,a,0);
+        List<List<Integer>> list=new ArrayList<>();
+        HashMap<Integer,List<List<Integer>>> hash=new HashMap<>();
+        for(int i=0;i<=a[2];i++){
+            hash.put(i,new ArrayList<>());
+            for(int j=0;j<=a[1]-a[0];j++)hash.get(i).add(new ArrayList<>());
+        }
+        for(int i=0;i<=a[1]-a[0];i++)list.add(new ArrayList<>());
+        f(root,hash,0,a,0);
+        for(int i=0;i<=a[1]-a[0];i++){
+            for(int j=0;j<=a[2];j++){
+                if(hash.get(j).get(i).size()!=0){
+                    Collections.sort(hash.get(j).get(i));
+                    list.get(i).addAll(hash.get(j).get(i));
+                }
+            }
+        }
+        return list;
+    }
+}
