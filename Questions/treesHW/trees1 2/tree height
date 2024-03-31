@@ -1,0 +1,37 @@
+
+/************************************************************
+
+ Following is the TreeNode class structure
+
+ class TreeNode {
+     int data;
+     TreeNode left;
+     TreeNode right;
+
+     TreeNode(int data) {
+         this.data = data;
+         this.left = null;
+         this.right = null;
+     }
+ }
+
+ ************************************************************/
+
+public class Solution {
+    static int max=Integer.MIN_VALUE;
+    static void fun(TreeNode root,int count){
+        if(root==null){
+            max=Math.max(count,max);
+            return;
+        }
+        fun(root.left,count+1);
+        fun(root.right,count+1);
+    }
+    public static int heightOfBinaryTree(TreeNode root) {
+        // Write your code here.
+        if(root==null)return 0;
+        max=Integer.MIN_VALUE;
+        fun(root,0);
+        return max;
+    }
+}
