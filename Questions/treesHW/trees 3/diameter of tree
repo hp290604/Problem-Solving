@@ -1,0 +1,18 @@
+
+class Solution {
+    public int diameterOfBinaryTree(TreeNode root) {
+        int[] c=dia(root,0);
+        return c[1];
+    }
+    static int[] dia(TreeNode root,int c){
+        if(root==null){
+            return new int[]{0,c};
+        }
+        int[] l=dia(root.left,c);
+        int[] r=dia(root.right,c);
+        // System.out.println()
+        c=Math.max(Math.max(l[1],r[1]),l[0]+r[0]);
+    return new int[]{1+Math.max(l[0],r[0]),c};
+    }
+    
+}
