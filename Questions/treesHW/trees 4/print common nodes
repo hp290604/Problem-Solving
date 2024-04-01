@@ -1,0 +1,38 @@
+class Solution
+{
+    static ArrayList<Integer> l2;
+    static HashSet<Integer> l1;
+    static void fun(Node root){
+        if(root==null)return;
+        fun(root.left);
+        l1.add(root.data);
+        fun(root.right);
+        
+    }
+    
+    static void fun2(Node root){
+        if(root==null)return;
+        fun2(root.left);
+        l2.add(root.data);
+        fun2(root.right);
+        
+    }
+    //Function to find the nodes that are common in both BST.
+	public static ArrayList<Integer> findCommon(Node root1,Node root2)
+    {
+        //code here
+        l1=new HashSet<>();
+        l2=new ArrayList<>();
+        fun(root1);
+        fun2(root2);
+        // System.out.println(l1);
+        // System.out.println(l2);
+        for(int i=0;i<l2.size();){
+            if(!l1.contains(l2.get(i))){
+                l2.remove(i);
+            }
+            else i++;
+        }
+        return l2;
+    }
+}
