@@ -1,0 +1,19 @@
+class Tree {
+    static int min=Integer.MAX_VALUE;
+    // Function to return the ceil of given number in BST.
+    static void fun(Node root,int key){
+        if(root==null)return;
+        if(root.data>=key){
+            min=Math.min(root.data,min);
+            
+        }
+        fun(root.left,key);
+        fun(root.right,key);
+    }
+    int findCeil(Node root, int key) {
+        min=Integer.MAX_VALUE;
+        fun(root,key);
+        return min==Integer.MAX_VALUE?-1:min;
+        // Code here
+    }
+}
