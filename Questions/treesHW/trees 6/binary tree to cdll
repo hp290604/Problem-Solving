@@ -1,0 +1,31 @@
+class Solution
+
+{
+    static List<Integer> list;
+    static void fun(Node root){
+        if(root==null)return;
+        fun(root.left);
+        list.add(root.data);
+        
+        fun(root.right);
+    }
+    Node bTreeToClist(Node root)
+    {
+        list=new ArrayList<>();
+        fun(root);
+        root=new Node(list.get(0));
+        Node ptr=root;
+        root.left=root;
+        root.right=root;
+        for(int i=1;i<list.size();i++){
+            ptr.right=new Node(list.get(i));
+            Node temp=ptr.right;
+            temp.left=ptr;
+            temp.right=root;
+            root.left=temp;
+            ptr=ptr.right;
+        }
+        return root;
+    }
+    
+}
