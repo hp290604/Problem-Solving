@@ -1,0 +1,41 @@
+class Info{
+    boolean isBST;
+    int size;
+    int min;
+    int max;
+    Info(){}
+    Info(boolean b,int size,int min,int max){
+        this.isBST=b;
+        this.size=size;
+        this.min=min;
+        this.max=max;
+    }
+}
+class Solution{
+    static Info large(Node root){
+        if(root==null){
+            return new Info(true,0,Integer.MAX_VALUE,Integer.MIN_VALUE);
+        }
+        Info left=large(root.left);
+        Info right=large(root.right);
+        Info cur=new Info();
+        cur.isBST=left.isBST && right.isBST && root.data>left.max && root.data<right.min;
+        cur.min=Math.min(left.min,root.data);
+        cur.max=Math.max(right.max,root.data);
+        if(cur.isBST){
+            cur.size=left.size+right.size+1;
+        }
+        else cur.size=Math.max(left.size,right.size);
+        // System.out.println(cur.isBST);
+        return cur;
+    }
+    
+    // Return the size of the largest sub-tree which is also a BST
+    static int largestBst(Node root)
+    {
+        // Write your code here
+        return large(root).size;
+        
+    }
+    
+}
