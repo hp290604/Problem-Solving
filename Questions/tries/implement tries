@@ -1,0 +1,52 @@
+class Trie {
+    Trie[] tree;
+    boolean end;
+    public Trie() {
+        this.tree=new Trie[26];
+        end=false;
+    }
+    
+    public void insert(String word) {
+        if(tree[word.charAt(0)-'a']==null)tree[word.charAt(0)-'a']=new Trie();
+        Trie t=tree[word.charAt(0)-'a'];
+        for(int i=0;i<word.length();i++){
+            if(t.tree[word.charAt(i)-'a']==null){
+                t.tree[word.charAt(i)-'a']=new Trie();
+                
+            }
+            t=t.tree[word.charAt(i)-'a'];
+        }
+        t.end=true;
+        
+    }
+    
+    public boolean search(String word) {
+        if(tree[word.charAt(0)-'a']==null)return false;
+        Trie t=tree[word.charAt(0)-'a'];
+        for(int i=0;i<word.length();i++){
+            if(t.tree[word.charAt(i)-'a']==null){
+                // tree[word.charAt(i)-'a']=new Trie();
+                return false;
+                
+            }
+            t=t.tree[word.charAt(i)-'a'];
+        }
+        return t.end;
+    }
+    
+    public boolean startsWith(String prefix) {
+        // return false;
+        if(tree[prefix.charAt(0)-'a']==null){
+            return false;
+        }
+        // return true;
+        Trie t=tree[prefix.charAt(0)-'a'];
+        for(int i=0;i<prefix.length();i++){
+            if(t.tree[prefix.charAt(i)-'a']==null){
+                return false;
+            }
+            t=t.tree[prefix.charAt(i)-'a'];
+        }
+        return true;
+    }
+}
