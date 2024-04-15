@@ -1,0 +1,24 @@
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+        boolean[] b=new boolean[isConnected.length];
+        int c=0;
+        for(int i=0;i<isConnected.length;i++){
+            if(b[i]==false){
+                Queue<Integer> q=new LinkedList<>();
+                q.offer(i);
+                b[i]=true;
+                while(!q.isEmpty()){
+                    int x=q.poll();
+                    for(int j=0;j<isConnected.length;j++){
+                        if(i!=j && b[j]==false && isConnected[x][j]==1){
+                            q.offer(j);
+                            b[j]=true;
+                        }
+                    }
+                }
+                c++;
+            }
+        }
+        return c;
+    }
+}
