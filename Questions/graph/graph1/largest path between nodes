@@ -1,0 +1,54 @@
+class Trie{
+    int val;
+    List<Trie> list=new ArrayList<>();
+    
+    Trie(int val){
+        this.val=val;
+    }
+}
+
+public class Solution {
+    static int c=0;
+    static int fun(Trie t){
+        int left=0;
+        int right=0;
+        if(t.list.size()==0)return 1;
+        for(int i=0;i<t.list.size();i++){
+            int val=fun(t.list.get(i));
+            if(val>=right){
+                left=right;
+                right=val;
+            }
+            else if(right>val && val>left){
+                left=val;
+            }
+        }
+        c=Math.max(c,left+right);
+        return right+1;
+    }
+    public int solve(int[] A) {
+        c=0;
+        Trie t=null;
+        Trie[] a=new Trie[A.length];
+        for(int i=0;i<a.length;i++){
+            a[i]=new Trie(i);   
+        }
+        for(int i=0;i<A.length;i++){
+            if(A[i]==-1){
+                // value=i;
+                t=a[i];
+                continue;
+            }
+            
+        }
+        for(int i=0;i<A.length;i++){
+            if(A[i]!=-1){
+                a[A[i]].list.add(a[i]);
+            }
+        }
+        // for(int i=0;i<A.length;i++){
+            int val=fun(t);
+        // }
+        return c;
+    }
+}
