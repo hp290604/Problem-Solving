@@ -1,0 +1,200 @@
+class Solution {
+    static boolean fun(int[][] grid,char ch,int t1,int t2){
+        boolean[][] b=new boolean[grid.length][grid[0].length];
+        b[0][0]=true;
+        Queue<int[]> q=new LinkedList<>();
+        q.offer(new int[]{t1, t2});
+        // char ch='i';
+        int cnt=0;
+        while(!q.isEmpty()){
+            int[] temp=q.poll();
+            if(temp[0]==grid.length-1 && temp[1]==grid[0].length-1)return true;
+            if(temp[0]<0 || temp[0]==grid.length || temp[1]<0 || temp[1]==grid[0].length)continue;
+            if(b[temp[0]][temp[1]]==true){
+                cnt++;
+                break;
+            }
+            
+            cnt++;
+            
+            switch (grid[temp[0]][temp[1]]){
+                case 1:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='R'){
+                        q.offer(new int[]{temp[0], temp[1]-1});
+                    }
+                    else if(ch=='L'){
+                        q.offer(new int[]{temp[0], temp[1]+1});
+                    }
+                    else return false;
+                    break;
+                case 2:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='U'){
+                        q.offer(new int[]{temp[0]+1, temp[1]});
+                    }
+                    else if(ch=='D'){
+                        q.offer(new int[]{temp[0]-1, temp[1]});
+                    }
+                    else return false;
+                    break;
+                case 3:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='D'){
+                        q.offer(new int[]{temp[0], temp[1]-1});
+                        ch='R';
+                    }
+                    else if(ch=='L') {
+                        q.offer(new int[]{temp[0]+1, temp[1]});
+                        ch='U';
+                    }
+                    else return false;
+                    break;
+                case 4:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='R'){
+                        ch='U';
+                        q.offer(new int[]{temp[0]+1, temp[1]+1});
+                    }
+                    else if(ch=='D') {
+                        ch='L';
+                        q.offer(new int[]{temp[0], temp[1]+1});
+                    }
+                    else return false;
+                    break;
+                case 5:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='L'){
+                        ch='D';
+                        q.offer(new int[]{temp[0]-1, temp[1]});
+                        
+                    }
+                    else if(ch=='U'){
+                        ch='R';
+                        q.offer(new int[]{temp[0], temp[1]-1});
+                        
+                    }
+                    else return false;
+                    break;
+                case 6:
+                    System.out.println(temp[0]+" "+temp[1]);
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='U'){
+                        ch='L';
+                        q.offer(new int[]{temp[0],temp[1]+1});
+                    }
+                    else if(ch=='R'){
+                        ch='D';
+                        q.offer(new int[]{temp[0]-1, temp[1]});
+                    }
+                    else return false;
+                    break;
+            }
+        }
+        if(b[grid.length-1][grid[0].length-1])return true;
+        return false;
+    }
+    public boolean hasValidPath(int[][] grid) {
+        if(grid.length*grid[0].length==1)return true;
+        boolean[][] b=new boolean[grid.length][grid[0].length];
+        Queue<int[]> q=new LinkedList<>();
+        q.offer(new int[]{0, 0});
+        char ch='i';
+        int cnt=0;
+        if(grid[0][0]==1){
+            ch='L';
+        }
+        else if(grid[0][0]==3)ch='L';
+        else if(grid[0][0]==5)ch='L';
+        else if(grid[0][0]==2) ch='U';
+        else if(grid[0][0]==6){
+            ch='U';
+        }
+        else {
+            return fun(grid,'L',0,1)|fun(grid,'U',1,0);
+            
+        }
+        while(!q.isEmpty()){
+            int[] temp=q.poll();
+            
+            if(temp[0]<0 || temp[0]==grid.length || temp[1]<0 || temp[1]==grid[0].length)continue;
+            if(b[temp[0]][temp[1]]==true)continue;
+            
+            cnt++;
+            
+            switch (grid[temp[0]][temp[1]]){
+                case 1:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='R'){
+                        q.offer(new int[]{temp[0], temp[1]-1});
+                    }
+                    else if(ch=='L'){
+                        q.offer(new int[]{temp[0], temp[1]+1});
+                    }
+                    else return false;
+                    break;
+                case 2:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='U'){
+                        q.offer(new int[]{temp[0]+1, temp[1]});
+                    }
+                    else if(ch=='D'){
+                        q.offer(new int[]{temp[0]-1, temp[1]});
+                    }
+                    else return false;
+                    break;
+                case 3:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='D'){
+                        q.offer(new int[]{temp[0], temp[1]-1});
+                        ch='R';
+                    }
+                    else if(ch=='L') {
+                        q.offer(new int[]{temp[0]+1, temp[1]});
+                        ch='U';
+                    }
+                    else return false;
+                    break;
+                case 4:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='R'){
+                        ch='U';
+                        q.offer(new int[]{temp[0]+1, temp[1]});
+                    }
+                    else if(ch=='D') {
+                        ch='L';
+                        q.offer(new int[]{temp[0], temp[1]+1});
+                    }
+                    else return false;
+                    break;
+                case 5:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='L'){
+                        ch='D';
+                        q.offer(new int[]{temp[0]-1, temp[1]});
+                        
+                    }
+                    else if(ch=='U'){
+                        ch='R';
+                        q.offer(new int[]{temp[0], temp[1]-1});
+                        
+                    }
+                    else return false;
+                    break;
+                case 6:
+                    b[temp[0]][temp[1]]=true;
+                    if(ch=='U'){
+                        ch='L';
+                        q.offer(new int[]{temp[0],temp[1]+1});
+                    }
+                    else if(ch=='R'){
+                        ch='D';
+                        q.offer(new int[]{temp[0]-1, temp[1]});
+                    }
+                    else return false;
+                    break;
+            }
+        }
+        return b[grid.length-1][grid[0].length-1];
+    }
+}
