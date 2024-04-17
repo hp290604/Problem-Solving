@@ -1,0 +1,65 @@
+class Trie{
+    boolean end;
+    Trie[] t;
+    Trie(){
+        this.end=false;
+        t=new Trie[26];
+    }
+    Trie(char ch){
+        this.t[ch-'a']=new Trie();
+    }
+}
+//User function Template for Java
+
+class Solution{
+    static void fun(ArrayList<ArrayList<String>> l,int j,Trie p,String temp){
+        if(p.end==true){
+            l.get(j).add(temp);
+        }
+        for(int i=0;i<26;i++){
+            if(p.t[i]!=null){
+                fun(l,j,p.t[i],temp+String.valueOf((char)(i+97)));
+            }
+        }
+    }
+    static ArrayList<ArrayList<String>> displayContacts(int n, 
+                                        String c[], String s)
+    {
+        // code here
+        Trie p=new Trie();
+        for(int i=0;i<n;i++){
+            Trie te=p;
+            for(int j=0;j<c[i].length();j++){
+                char ch=c[i].charAt(j);
+                if(te.t[ch-'a']==null){
+                    te.t[ch-'a']=new Trie();
+                }
+                te=te.t[ch-'a'];
+            }
+            te.end=true;
+        }
+        ArrayList<ArrayList<String>> list=new ArrayList<>();
+        for(int i=0;i<s.length();i++)
+        list.add(new ArrayList<>());
+        for(int i=0;i<s.length();i++){
+            Trie te=p;
+            int con=0;
+            for(int j=0;j<=i;j++){
+                if(te.t[s.charAt(j)-'a']!=null){
+                    te=te.t[s.charAt(j)-'a'];
+                }
+                else {
+                    con=1;
+                    break;
+                }
+            }
+            if(con==0){
+                fun(list,i,te,s.substring(0,i+1));
+            }
+            else list.get(i).add("0");
+        }
+        // System.out.println(list);
+        return list;
+        
+    }
+}
