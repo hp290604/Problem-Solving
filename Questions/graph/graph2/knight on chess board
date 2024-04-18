@@ -1,0 +1,30 @@
+public class Solution {
+    public int knight(int A, int B, int C, int D, int E, int F) {
+        Queue<int[]> q=new LinkedList<>();
+        int[][] b=new int[A][B];
+        boolean[][] bo=new boolean[A][B];
+        bo[C-1][D-1]=true;
+        q.offer(new int[]{C-1, D-1, 0});
+        while(!q.isEmpty()){
+            int[] temp=q.poll();
+            if(temp[0]>=A || temp[0]<0 || temp[1]>=B || temp[1]<0)continue;
+            if(temp[0]==E-1 && temp[1]==F-1)return b[E-1][F-1];
+            int[] x={2,2,-2,-2,1,1,-1,-1};
+            int[] y={1,-1,1,-1,2,-2,2,-2};
+            
+            for(int i=0;i<8;i++){
+                int s1=temp[0]+x[i];
+                int s2=temp[1]+y[i];
+                if(s1>=0 && s1<A && s2>=0 && s2<B && bo[s1][s2]==false){
+                    bo[s1][s2]=true;
+                    q.offer(new int[]{s1, s2, temp[2]+1});
+                    if(b[s1][s2]==0){
+                        b[s1][s2]=temp[2]+1;
+                    }
+                    else b[s1][s2]=Math.min(temp[2]+1,b[s1][s2]);
+                }
+            }
+        }    
+        return -1;
+    }
+}
