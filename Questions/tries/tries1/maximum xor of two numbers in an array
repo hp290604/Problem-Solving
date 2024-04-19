@@ -1,0 +1,46 @@
+class Trie{
+    Trie[] t;
+    Trie(){
+        this.t=new Trie[2];
+    }
+}
+class Solution {
+    public int findMaximumXOR(int[] nums) {
+        Trie p=new Trie();
+        List<int[]> list=new ArrayList<>();
+        for(int i=0;i<nums.length;i++){
+            Trie te=p;
+            int tempo=nums[i];
+            int[] dp=new int[31];
+            int j=0;
+            list.add(dp);
+            while(tempo!=0){
+                dp[j++]=tempo%2;
+                tempo=tempo/2;
+            }
+            for( j=30;j>=0;j--){
+                if(te.t[dp[j]]==null){
+                    te.t[dp[j]]=new Trie();
+                }
+                te=te.t[dp[j]];
+            }
+        }
+        int xor=0;
+        for(int i=0;i<nums.length;i++){
+            Trie te=p;
+            int xorr=0;
+            int[] dp=list.get(i);
+            for( int j=30;j>=0;j--){
+                if(te.t[1-dp[j]]!=null){
+                    xorr+=1<<j;
+                    te=te.t[1-dp[j]];
+                }
+                else{
+                    te=te.t[dp[j]];
+                }
+            }
+            xor=Math.max(xor,xorr);
+        }
+        return xor;
+    }
+}
