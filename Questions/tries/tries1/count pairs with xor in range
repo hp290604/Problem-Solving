@@ -1,0 +1,49 @@
+class Trie{
+    Trie[] t;
+    int count;
+    Trie(){
+        this.t=new Trie[2];
+        this.count=0;
+    }
+}
+class Solution {
+    public static int countLess(Trie p, int n,int k){
+        int cntPairs = 0;
+        for(int i=30;i>=0 && p!=null;i--){
+            int temp=n;
+            int temp2=k;
+            int x = (temp>>i)&1;
+            int y = (temp2>>i)&1;
+            if(y==0){
+                p = p.t[x];
+                continue;
+            }
+            if(p.t[x]!=null){
+                cntPairs+=p.t[x].count;
+            }
+            p=p.t[1-x];
+        }
+        return cntPairs;
+    }
+    public int countPairs(int[] nums, int low, int high) {
+        Trie p=new Trie();
+        int count=0;
+        
+        for(int num:nums){
+            Trie te=p;
+            count+=countLess(te,num,high+1)-countLess(te,num,low);
+        
+            Trie tet=p;
+            for(int i=30;i>=0;i--){
+                int bit=(num>>i)&1;
+                if(tet.t[bit]==null){
+                    tet.t[bit]=new Trie();
+                }
+                tet.t[bit].count++;
+                tet=tet.t[bit];
+            } 
+        
+        }
+        return count;
+    }
+}
