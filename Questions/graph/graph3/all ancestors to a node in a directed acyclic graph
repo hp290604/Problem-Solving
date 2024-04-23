@@ -1,0 +1,48 @@
+class Solution {
+    public List<List<Integer>> getAncestors(int n, int[][] edges) {
+        List<List<Integer>> list=new ArrayList<>();
+        int[][] a=new int[n][n];
+        // for(int i=0;i<n;i++){
+        //     list.add(new ArrayList<>());
+        //     // for(int j=0;j<n;j++)list.get(i).add(0);
+        // }
+        for(int i=0;i<edges.length;i++){
+            int m=edges[i][0];
+            int nn=edges[i][1];
+            a[nn][m]=1;
+            // a[edges[i]]
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(a[i][j]==1){
+                    for(int k=0;k<n;k++){
+                        if(a[j][k]==1){
+                            a[i][k]=1;
+                            // a[k][i]=1;
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(a[i][j]==1){
+                    for(int k=0;k<n;k++){
+                        if(a[j][k]==1){
+                            a[i][k]=1;
+                            // a[k][i]=1;
+                        }
+                    }
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            list.add(new ArrayList<>());
+            for(int j=0;j<n;j++){
+                if(i!=j && a[i][j]==1)list.get(i).add(j);
+            }
+        }
+        // System.out.println(list);
+        return list;
+    }
+}
