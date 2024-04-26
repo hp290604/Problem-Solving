@@ -1,0 +1,70 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+class Pair{
+    Node root;
+    Node node;
+    Pair(Node root,Node node){
+        this.root=root;
+        this.node=node;
+    }
+}
+class Solution {
+    public Node cloneGraph(Node node) {
+        if(node==null)return null;
+        HashSet<Integer> set=new HashSet<>();
+        HashMap<Integer, Node> map=new HashMap<>();
+        Queue<Pair> q=new LinkedList<>();
+        Node root=new Node(node.val);
+        map.put(node.val,root);
+        q.offer(new Pair(root,node));
+        while(!q.isEmpty()){
+            Pair ob=q.poll();
+            Node r=ob.root;
+            Node n=ob.node;
+            set.add(r.val);
+            for(int i=0;i<n.neighbors.size();i++){
+                int val=n.neighbors.get(i).val;
+                if(!map.containsKey(val)){
+                    map.put(val,new Node(val));
+                }
+                r.neighbors.add(map.get(val));
+            }
+            for(int i=0;i<n.neighbors.size();i++){
+                int value=n.neighbors.get(i).val;
+                if(!set.contains(value)){
+                    System.out.println(map.get(value).val+" "+n.neighbors.get(i).val);
+                    q.offer(new Pair(r.neighbors.get(i),n.neighbors.get(i)));
+                }
+            }
+            // break;
+        }
+        for(Map.Entry<Integer,Node> m:map.entrySet()){
+            HashSet<Node> nset=new HashSet<>();
+            Node temp=m.getValue();
+            for(int i=0;i<temp.neighbors.size();i++){
+                nset.add(temp.neighbors.get(i));
+            }
+            temp.neighbors.clear();
+            temp.neighbors.addAll(nset);
+            // System.out.println(m.getKey()+" "+m.getValue().neighbors);
+        }
+        return root;
+    }
+}
