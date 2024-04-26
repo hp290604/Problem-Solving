@@ -1,0 +1,46 @@
+class Solution {
+    public int orangesRotting(int[][] grid) {
+        int max=0;
+        List<int[]> list= new ArrayList<>();
+        for(int i=0;i<grid.length;i++)
+            for(int j=0;j<grid[0].length;j++)
+                if(grid[i][j]==2)
+                    list.add(new int[]{i, j, 0});
+        int[][] b=new int[grid.length][grid[0].length];
+        for(int i=0;i<grid.length;i++)Arrays.fill(b[i],Integer.MAX_VALUE);
+        for(int temp=0;temp<list.size();temp++){
+            Queue<int[]> q=new LinkedList<>();
+            q.offer(list.get(temp));
+            boolean[][] value=new boolean[grid.length][grid[0].length];
+        while(!q.isEmpty()){
+            int[] po=q.poll();
+            int i=po[0],j=po[1],k=po[2];
+            if(i+1<grid.length && grid[i+1][j]==1 && value[i+1][j]==false){
+                value[i+1][j]=true;
+                q.offer(new int[]{i+1, j,po[2]+1});
+            }
+            if(j+1<grid[0].length && grid[i][1+j]==1 && value[i][j+1]==false){
+                q.offer(new int[]{i, j+1,po[2]+1});
+                value[i][j+1]=true;
+            }
+            if(i-1>=0 && grid[i-1][j]==1 && value[i-1][j]==false){
+                q.offer(new int[]{i-1, j,po[2]+1});
+                value[i-1][j]=true;
+            }
+            if(j-1>=0 && grid[i][j-1]==1 && value[i][j-1]==false){
+                q.offer(new int[]{i, j-1,po[2]+1});
+                value[i][j-1]=true;
+            }
+            b[po[0]][po[1]]=Math.min(po[2],b[po[0]][po[1]]);
+        }}
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]==1 && b[i][j]==Integer.MAX_VALUE)return -1;
+                if(b[i][j]!=Integer.MAX_VALUE){
+                    max=Math.max(max,b[i][j]);
+                }
+            }
+        }
+        return max;
+    }
+}
