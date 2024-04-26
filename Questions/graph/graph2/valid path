@@ -1,0 +1,33 @@
+public class Solution {
+    static int[][] dir=new int[][]{{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
+    public String solve(int x, int y, int n, int r, int[] xc, int[] yc) {
+        // int x=0,y=0;
+        boolean[][] vis=new boolean[x+1][y+1];
+        return dfs(0,0,x,y,xc,yc,r,vis)==true?"YES":"NO";
+    }
+    static boolean dfs(int x,int y,int dx,int dy,int[]xc,int[]yc,int r,boolean[][] vis){
+        if(x<0 || y<0 ||x>dx || y>dy  )return false;
+        if(inside(xc,yc,x,y,r))return false;
+        if(x==dx && y==dy)return true;
+        if(vis[x][y])return false;
+        vis[x][y]=true;
+        boolean ans=false;
+        for(int i=0;i<dir.length;i++){
+            int nx=dir[i][0]+x;
+            int ny=dir[i][1]+y;
+            
+                ans|= dfs(nx,ny,dx,dy,xc,yc,r,vis);
+            
+        }
+        return ans;
+    }
+    static boolean inside(int[] xc,int[] yc,int x,int y, int r){
+        for(int i=0;i<xc.length;i++){
+            int ansx=xc[i]-x;
+            int ansy=yc[i]-y;
+            if(ansx*ansx+ansy*ansy<=r*r)return true;
+        }
+        
+        return false;
+    }
+}
