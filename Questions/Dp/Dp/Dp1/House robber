@@ -1,0 +1,78 @@
+class Solution {
+    int s=0;
+    public int rob(int[] nums) {
+        int t1=0,t2=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]+t1>=t2){
+                int temp=t1+nums[i];
+                t1=t2;
+                t2=temp;
+            }
+            else t1=t2;
+
+        }
+        return t2;
+    }
+    public void recur(int[] nums,int in,int s,int p){
+        
+        if(in>=nums.length){
+            
+            this.s=p>this.s?p:this.s;
+            //System.out.println(this.s);
+            return;
+        }
+        else if(in<nums.length)return;
+        p+=nums[in];
+        //System.out.println(nums[in]);
+        recur(nums,in+2,this.s,p);
+        recur(nums,in+3,this.s,p);
+        
+    }
+}
+
+
+
+// class Solution {
+//     public int rob(int[] nums) {
+//         int sum=nums[0],sum2=1<nums.length?nums[1]:0;
+//         int[] a=new int[4];
+//         int s3=0,s4=0,t1=0,t2=0;
+//         for(int i=0;i<nums.length;i=i+2){
+//             s3+=nums[i];
+//         }
+//         a[0]=s3;
+//         for(int i=1;i<nums.length;i=i+2)s4+=nums[i];
+//         a[1]=s4;
+//         for(int i=2;i<nums.length;){
+//             System.out.println(i);
+//             if(i+1<nums.length && sum+nums[i+1]>sum+nums[i]){
+                
+//                 sum+=nums[i+1];
+//                 i=i+1+2;
+//             }
+//             else{
+//                 sum+=nums[i];
+//                 i=i+2;
+//             }
+//         }
+//         a[2]=sum;
+//         for(int i=3;i<nums.length;){
+//             if(i+1<nums.length && sum2+nums[i+1]>sum2+nums[i]){
+//                 sum2+=nums[i+1];
+//                 i=i+3;
+//             }
+//             else{
+//                 sum2+=nums[i];
+//                 i=i+2;
+//             }
+//         }
+//         a[3]=sum2;
+//         //System.out.println(a[0]);
+//         for(sum=1;sum<4;sum++){
+//             //System.out.println(a[sum]);
+//             sum2=a[sum-1]>sum2?a[sum-1]:sum2;
+//         }
+//         return sum2;
+//         //return sum>sum2?sum>s3?sum:s3:sum2>s4?sum2:s4;
+//     }
+// }
