@@ -1,0 +1,41 @@
+class Solution {
+    public boolean canFinish(int num, int[][] pre) {
+        if(pre.length==0)return true;
+        int[] a=new int[num];
+        HashSet<Integer> set=new HashSet<>();
+        HashMap<Integer,List<Integer>> hash=new HashMap<>();
+        for(int i=0;i<pre.length;i++){
+            if(!hash.containsKey(pre[i][1])){
+                hash.put(pre[i][1],new ArrayList<>());
+            }
+            if(!hash.containsKey(pre[i][0]))hash.put(pre[i][0],new ArrayList<>());
+            hash.get(pre[i][1]).add(pre[i][0]);
+        }
+        for(int i=0;i<pre.length;i++){
+            a[pre[i][0]]++;
+            
+        }
+        Queue<Integer> q=new LinkedList<>();
+        for(int i=0;i<num;i++){
+            if(a[i]==0){
+                q.offer(i);
+            }
+        }
+        // for(int i=0;i<a.length;i++)
+        // System.out.print(hash);
+        while(!q.isEmpty()){
+            int k=q.poll();
+            if(set.contains(k))return false;
+            set.add(k);
+            List<Integer> list=hash.get(k)==null?new ArrayList<>():hash.get(k);
+            for(int j=0;j<list.size();j++){
+                a[list.get(j)]--;
+                if(a[list.get(j)]==0){
+                    q.offer(list.get(j));
+                }
+            }
+        }
+        System.out.println(hash.size());
+        return set.size()==num;
+    }
+}
