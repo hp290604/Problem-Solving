@@ -1,0 +1,71 @@
+// class A{
+//     HashMap<Character,Integer> charMap;
+//     int i;
+//     A(){
+//         this.charMap
+//     }
+//     A(int i,char ch){
+        
+//         this.i=i;
+//         this.
+//     }
+// }
+class Solution {
+    static int max=0;
+    static  List<Integer> fn;
+    static void fun(HashMap<Integer,List<Integer>> hash,int[] a,int  node,HashMap<Integer,Character> map,boolean[] size,String s){
+        
+        if(size[node]==true){
+            fn.add(-1);
+            max=-1;
+            return;
+        }
+        a[map.get(node)-'a']++;
+        // System.out.println(a[map.get(node)-'a']+"value");
+        max=Math.max(a[map.get(node)-'a'],max);
+        if(!hash.containsKey(node)){
+            fn.add(max);
+            // System/.out.println(s);
+            a[map.get(node)-'a']--;
+            return;
+        }
+        for(int i=0;i<hash.get(node).size();i++){
+            size[node]=true;
+            fun(hash,a,hash.get(node).get(i),map,size,s);
+            size[node]=false;
+        }
+        a[map.get(node)-'a']--;
+    }
+    public int largestPathValue(String colors, int[][] edges) {
+        // if(colors.length()==1)return 1;
+        if(edges.length==0)return 1;
+        HashMap<Integer,Character> map=new HashMap<>();
+       fn=new ArrayList<>();
+        // int idx=1;
+        // map.put(edges[0][0],colors.charAt(0));
+        for(int i=0;i<colors.length();i++){
+            map.put(i,colors.charAt(i));
+        }
+        boolean[] size=new boolean[map.size()];
+        // System.out.println(map);
+        // return 0;
+        // HashMap<Integer,Character> map=new HashMap<>();
+        // int cIdx=0;
+        HashMap<Integer,List<Integer>> hash = new HashMap<>();
+        // A[] a=new A[colors.length];
+        max=0;
+        for(int i=0;i<edges.length;i++){
+            List<Integer> list = hash.getOrDefault(edges[i][0],new ArrayList<>());
+            list.add(edges[i][1]);
+            hash.put(edges[i][0],list);
+        }
+        // ans[colors.charAt(0)-'a']++;
+        int[] color=new int[26];
+        for(int i=0;i<map.size();i++){
+            Arrays.fill(color,0);
+            fun(hash,new int[26],i,map,size,"");
+        }
+        // System.out.println(map);
+        return Collections.max(fn);
+    }
+}
