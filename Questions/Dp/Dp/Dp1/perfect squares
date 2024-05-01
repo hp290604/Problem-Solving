@@ -1,0 +1,44 @@
+class Solution {
+    static int c=Integer.MAX_VALUE;
+    public int numSquares(int n) {
+        c=Integer.MAX_VALUE;
+        // int tot=n;
+        List<Integer> list=new ArrayList<>();
+        for(int i=n;i>0;i--){
+            double d=Math.sqrt(i);
+            if(d-(int)d==0){
+                list.add(i);
+            }
+        }
+        int[] dp=new int[n+1];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[0]=0;
+        return f(list,n,n,list.size()-1,dp);
+        // return c;
+    }
+    static int f(List<Integer> list,int n,int sum,int i,int[] dp){
+        if(i==-1)return dp[sum];
+        if(sum==0)return dp[sum];
+        if(dp[sum]!=Integer.MAX_VALUE)return dp[sum];
+        // for(int j=0;j<=n;j++){
+        //     System.out.print(dp[j]+" ");
+        // }
+        // System.out.println();
+        for(int j=i;j>=0;j--){
+            if(sum-list.get(j)>=0){
+                dp[sum]=Math.min(dp[sum],1+Math.min(f(list,n,sum-list.get(j),j,dp),f(list,n,sum-list.get(j),j-1,dp)));
+            }
+        }
+        return dp[sum];
+        // if(sum==0){
+        //     c=Math.min(c,co);
+        // }
+        // if(sum<0)return;
+        // // int k=list.get(i);
+        // for(int j=i;j<list.size();j++){
+        //     f(list,n,sum-list.get(j),i,co+1);
+        //     f(list,n,sum-list.get(j),i+1,co+1);
+        // }
+
+    }
+}
