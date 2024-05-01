@@ -1,0 +1,23 @@
+class Solution{
+public:
+    int maxSum(int N, vector<vector<int>> mat)
+    {
+        // code here
+        int dp[N]={0};
+        dp[0]=max(mat[0][0],mat[1][0]);
+        // cout<< mat.size();
+        
+        for(int i=1;i<N;i++){
+            if(i-2<0){
+                dp[i]=max(dp[i-1],max(mat[0][i],mat[1][i]));
+                continue;
+                // cout<<dp[i-1];
+            }
+            else dp[i]=max(dp[i-1],dp[i-2]+max(mat[0][i],mat[1][i]));
+            // cout<<i<<" ";
+        }
+        
+        // cout<<endl;
+        return dp[N-1];
+    }
+};
