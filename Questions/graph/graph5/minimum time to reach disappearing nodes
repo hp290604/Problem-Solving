@@ -1,0 +1,48 @@
+class Pair{
+    int weight;
+    int node;
+    Pair(int w,int n){
+        this.node = n;
+        this.weight = w;
+    }
+}
+class Solution {
+    public int[] minimumTime(int n, int[][] edges, int[] disappear) {
+        PriorityQueue<Pair> p = new PriorityQueue<>((Pair a,Pair b)->Integer.compare(a.weight,b.weight));
+        int[] res = new int[n];
+        Arrays.fill(res, Integer.MAX_VALUE);
+        List<Pair>[] list = new ArrayList[n];
+        for(int i=0;i<n;i++){
+            list[i] = new ArrayList<>();
+        }
+        for (int[] edge : edges) {
+            // System.out.println(edge[0]+" "+edge[1]+" "+edge[2]);
+            list[edge[0]].add(new Pair( edge[2], edge[1]));
+            list[edge[1]].add(new Pair( edge[2], edge[0]));
+        }
+        
+        p.offer(new Pair(0,0));
+        res[0] = 0;
+        boolean[] vis = new boolean[n];
+        while(!p.isEmpty()){
+            Pair curPair = p.poll();
+            int node = curPair.node;
+            if(vis[node]) continue;
+            int weight = curPair.weight;
+            vis[node] = true;
+            for(int i=0;i<list[node].size();i++){
+                Pair temp = list[node].get(i);
+                int newWeight = weight + temp.weight;
+                // System.out.pri/ntln(temp.node);
+                if(newWeight < res[temp.node] && newWeight<disappear[temp.node]){
+                    p.offer(new Pair( newWeight, temp.node));
+                    res[temp.node] = newWeight;
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(res[i]>disappear[i])res[i]=-1;
+        }
+        return res;
+    }
+}
