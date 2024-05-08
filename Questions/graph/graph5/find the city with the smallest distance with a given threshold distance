@@ -1,0 +1,42 @@
+class Solution {
+    public int findTheCity(int n, int[][] edges, int thr) {
+        int[] list=new int[n];
+        HashMap<Integer,List<int[]>> hash=new HashMap<>();
+        for(int i=0;i<n;i++)hash.put(i,new ArrayList<>());
+        for(int i=0;i<edges.length;i++){
+            hash.get(edges[i][0]).add(new int[]{ edges[i][1], edges[i][2]});
+            hash.get(edges[i][1]).add(new int[]{ edges[i][0], edges[i][2]});
+        }
+        for(int i=0;i<n;i++){
+            PriorityQueue<int[]> p=new PriorityQueue<>((a,b)->a[1]-b[1]);
+            HashSet<Integer> set=new HashSet<>();
+            p.offer(new int[]{i,0});
+            int c=0;
+            while(!p.isEmpty()){
+                int[] a=p.poll();
+                if(set.contains(a[0]))continue;
+                c++;
+                set.add(a[0]);
+                List<int[]> li=hash.get(a[0]);
+                for(int j=0;j<li.size();j++){
+                    int[] b=li.get(j);
+                    if(a[1]+b[1]<=thr){
+                        p.offer(new int[]{b[0], a[1]+b[1]});
+                    }
+                }
+            }
+            list[i]=c;
+        }
+        int min=Integer.MAX_VALUE;
+        for(int i=0;i<list.length;i++){
+            min=Math.min(list[i]-1,min);
+        }
+        for(int i=list.length-1;i>=0;i--){
+            if(min==list[i]-1){
+                min=i;
+                break;
+            }
+        }
+        return min;
+    }
+}
