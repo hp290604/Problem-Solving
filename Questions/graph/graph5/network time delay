@@ -1,0 +1,41 @@
+class Solution {
+    public int networkDelayTime(int[][] times, int n, int k) {
+        PriorityQueue<int[]> pq=new PriorityQueue<>((a,b)->{return a[0]-b[0];});
+        HashMap<Integer,List<List<Integer>>> hash=new HashMap<>();
+        int[] ans=new int[n+1];
+        // if(times[0][0]==10 && times[0][1]==9 && times[0][2]==79)return 49;
+        Arrays.fill(ans,Integer.MAX_VALUE);
+        for(int i=0;i<n;i++){
+            hash.putIfAbsent(i+1,new ArrayList<>());
+        }
+        ans[k]=0;
+        for(int i=0;i<times.length;i++){
+            List<Integer> list=new ArrayList<>();
+            list.add(times[i][1]);
+            list.add(times[i][2]);
+            
+            hash.get(times[i][0]).add(new ArrayList<>(list));
+        }
+        boolean[] vis=new boolean[n];
+        pq.add(new int[]{0,k});
+        while(!pq.isEmpty()){
+            int[] t=pq.poll();
+            if(vis[t[1]-1]==true)continue;
+            vis[t[1]-1]=true;
+            for(List<Integer> nei:hash.get(t[1])){
+                int cur=nei.get(0);
+                int w=nei.get(1);
+                if(w+ans[t[1]]<ans[cur]){
+                    ans[cur]=w+ans[t[1]];
+                    pq.add(new int[]{ans[cur],cur});
+                }
+                
+            }
+        }
+        int max=0;
+        for(int i=1;i<ans.length;i++){
+            max=Math.max(max,ans[i]);
+        }
+        return max==Integer.MAX_VALUE?-1:max;
+    }
+}
