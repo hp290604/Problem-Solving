@@ -1,0 +1,15 @@
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int cumsum=0;
+        int max=Integer.MIN_VALUE;
+        int i;
+        int maxb=0;
+        for(i=0;i<nums.length;i++){
+            cumsum=cumsum+nums[i];
+            max=cumsum>max?cumsum:max;
+            if(cumsum<0)
+            cumsum=0;
+        }
+        return max;
+    }
+}
