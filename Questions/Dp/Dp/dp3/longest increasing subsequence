@@ -1,0 +1,52 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        List<Integer> ans=new ArrayList<>();
+        ans.add(nums[0]);
+        for(int i=1;i<nums.length;i++){
+            if(nums[i]>ans.get(ans.size()-1)){
+                ans.add(nums[i]);
+            }
+            else{
+                int low=0,high=ans.size()-1;
+                int idx=-1;
+                while(low<=high){
+                    int mid=low+(high-low)/2;
+                    if(ans.get(mid)>=nums[i]){
+                        idx=mid;
+                        high=mid-1;
+                    }
+                    else low=mid+1;
+                }
+                ans.set(idx,nums[i]);
+            }
+        }
+        return ans.size();
+    }
+}
+/*
+class Solution {
+    static int max=0;
+    static int LISRecursion(int[] nums,int i,int curMax,int count,int[] dp){
+        if(i<=0)return count;
+        if(dp[i]!=Integer.MIN_VALUE)return dp[i];
+        int m1=LISRecursion(nums,i-1,curMax,count,dp);
+        dp[i]=Math.max(dp[i],m1);
+        int m2=0;
+        if(curMax>nums[i]){
+            m2=LISRecursion(nums,i-1,nums[i],count+1,dp)+1;
+            dp[i]=Math.max(dp[i],m2);
+        }
+        System.out.println(i+" "+dp[i]);
+        return dp[i];
+        
+    }
+    public int lengthOfLIS(int[] nums) {
+        max=0;
+        int[] dp=new int[nums.length];
+        Arrays.fill(dp,Integer.MIN_VALUE);
+        dp[0]=1;
+        return LISRecursion(nums,nums.length-1,Integer.MAX_VALUE,1,dp);
+    }
+}
+
+*/
