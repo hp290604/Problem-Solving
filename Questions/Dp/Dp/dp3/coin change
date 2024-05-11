@@ -1,0 +1,77 @@
+//BOTTOM UP APPROACH
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int[] dp=new int[amount+1];
+        Arrays.fill(dp,-1);
+        dp[0]=0;
+        int ans=f(coins,amount,dp);
+        // for(int i=0;i<dp.length;i++)System.out.print(dp[i]+" ");
+        return ans==Integer.MAX_VALUE || ans==-1?-1:ans;
+    }
+    public int f(int[] coins,int am,int[] dp){
+        if(am==0)return 0;
+        // if(dp[am]!=-1)return dp[am];
+        int ans=Integer.MAX_VALUE;
+        for(int i=0;i<coins.length;i++){
+            if(am-coins[i]>=0){
+                int sub=0;
+                if(dp[am-coins[i]]!=-1){
+                    sub=dp[am-coins[i]];
+                }
+                else sub=f(coins,am-coins[i],dp);
+                if(sub!=Integer.MAX_VALUE && sub+1<ans)ans=sub+1;
+            }
+        }
+        return dp[am]=ans;
+    }
+    
+}
+// TOP DOWN APPROACH
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int[] dp=new int[amount+1];
+        Arrays.fill(dp,-1);
+        dp[0]=0;
+        int ans=minCoins(amount,coins,dp);
+        // for(int i=0;i<dp.length;i++)System.out.print(dp[i]+" ");
+        return ans==Integer.MAX_VALUE || ans==-1?-1:ans;
+    }
+    public int f(int[] coins,int am,int[] dp){
+        if(am==0)return 0;
+        // if(dp[am]!=-1)return dp[am];
+        int ans=Integer.MAX_VALUE;
+        for(int i=0;i<coins.length;i++){
+            if(am-coins[i]>=0){
+                int sub=0;
+                if(dp[am-coins[i]]!=-1){
+                    sub=dp[am-coins[i]];
+                }
+                else sub=f(coins,am-coins[i],dp);
+                if(sub!=Integer.MAX_VALUE && sub+1<ans)ans=sub+1;
+            }
+        }
+        return dp[am]=ans;
+    }
+    static int minCoins(int n, int a[], int dp[]) {
+		
+		if(n == 0) return 0;
+		
+		int ans = Integer.MAX_VALUE;
+		
+		for(int i = 0; i<a.length; i++) {
+			if(n-a[i] >= 0) {
+				int subAns = 0;
+				if(dp[n-a[i]] != -1) {
+					subAns = dp[n-a[i]];
+				} else {
+					subAns = minCoins(n-a[i], a, dp);
+				}
+				if(subAns != Integer.MAX_VALUE && 
+						subAns + 1 < ans) {
+					ans = subAns + 1;
+				}
+			}
+		}
+		return dp[n] = ans;
+	}
+}
