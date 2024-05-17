@@ -1,0 +1,19 @@
+class Solution {
+    static long sum=0;
+    static ArrayList<Integer> dp;
+    static long fun(int[][] q,int i,long[] dp){
+        if(i>=q.length)return 0;
+        if(dp[i]!=-1)return dp[i];
+        long take=q[i][0]+(q[i][1]+i+1<q.length?fun(q,q[i][1]+1+i,dp):0);
+        long not=(i+1<q.length?fun(q,i+1,dp):0);
+        dp[i]=Math.max(take,not);
+        return dp[i];
+        
+    }
+    public long mostPoints(int[][] questions) {
+        long [] dp=new long[questions.length];
+        Arrays.fill(dp,-1);
+        return fun(questions,0,dp);
+        
+    }
+}
