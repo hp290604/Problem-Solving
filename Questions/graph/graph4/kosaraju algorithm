@@ -1,0 +1,46 @@
+class Solution
+{
+    //Function to find number of strongly connected components in the graph.
+    private static void dfs(int node,ArrayList<ArrayList<Integer>> list,Stack<Integer> stack,boolean[] vis){
+        vis[node]=true;
+        for(int i:list.get(node)){
+            if(!vis[i])dfs(i,list,stack,vis);
+            
+        }
+        stack.push(node);
+    }
+    private static void dfs2(int node,ArrayList<ArrayList<Integer>> list,boolean[] vis){
+        vis[node]=true;
+        for(int i:list.get(node)){
+            if(!vis[i])dfs2(i,list,vis);
+        }
+    }
+    public int kosaraju(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        //code here
+        ArrayList<ArrayList<Integer>> list=new ArrayList<>();
+        // Collections.fill(list,new ArrayList<>());
+        for(int i=0;i<V;i++)list.add(new ArrayList<>());
+        for(int i=0;i<adj.size();i++){
+            for(int j:adj.get(i)){
+                list.get(j).add(i);
+            }
+        }
+        Stack<Integer> stack=new Stack<>();
+        boolean[] vis=new boolean[V];
+        for(int i=0;i<V;i++){
+            if(!vis[i])dfs(i,adj,stack,vis);
+        }
+        Arrays.fill(vis,false);
+        int scc=0;
+        // System.out.println(stack);
+        while(!stack.isEmpty()){
+            if(!vis[stack.peek()]){
+                dfs2(stack.peek(),list,vis);
+                scc++;
+            }
+            stack.pop();
+        }
+        return scc;
+    }
+}
