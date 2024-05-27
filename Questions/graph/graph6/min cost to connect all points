@@ -1,0 +1,52 @@
+class Solution {
+    static int findParent(int[] pnt,int u){
+        if(pnt[u]==u)return u;
+        return pnt[u]=findParent(pnt,pnt[u]);
+    }
+    static void union(int[] parent,int u,int v,int[] rank){
+        int pu=findParent(parent,u);
+        int pv=findParent(parent,v);
+        if(pu!=pv){
+            if(rank[pu]<=rank[pv]){
+                rank[pv]+=rank[pu];
+                parent[pu]=pv;
+            }
+            else{
+                parent[pv]=pu;
+                rank[pu]+=rank[pv];
+            }
+        }
+    }
+    public int minCostConnectPoints(int[][] p) {
+        int[][] wt=new int[p.length*(p.length+1)/2][3];
+        int k=0;
+        for(int i=0;i<p.length;i++){
+            for(int j=i+1;j<p.length;j++){
+                wt[k][0]=i;
+                wt[k][1]=j;
+                wt[k][2]=Math.abs(p[i][0]-p[j][0])+Math.abs(p[i][1]-p[j][1]);
+                k++;
+            }
+        }
+        k=0;
+        int[] parent=new int[p.length];
+        int[] rank=new int[p.length];
+        Arrays.fill(rank,1);
+        for(int i=0;i<p.length;i++)parent[i]=i;
+        PriorityQueue<int[]> q=new PriorityQueue<>((a,b)->Integer.compare(a[2],b[2]));
+        Arrays.sort(wt,(a,b)->Integer.compare(a[2],b[2]));
+        for(int[] it:wt){
+            q.offer(it);
+        }
+        while(!q.isEmpty()){
+            int[] it=q.poll();
+            int pu=findParent(parent,it[0]);
+            int pv=findParent(parent,it[1]);
+            if(pu!=pv){
+                k+=it[2];
+                union(parent,it[0],it[1],rank);
+            }
+        }
+        return k;
+    }
+}
